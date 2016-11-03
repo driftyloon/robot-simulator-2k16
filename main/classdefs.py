@@ -110,13 +110,18 @@ class enemy(pygame.sprite.Sprite):
     def spawn(self):
         self.__x = random.randrange(0, -300, -30)
         self.__y = random.randint(0, self.screen.get_height() - 100)
+        self.rect.center = (self.__x, self.__y)
 
     def set_step_amount(self, player_pos):
-        self.distance = math.sqrt \
-            (pow(player_pos[0] - self.rect.centerx, 2) + pow(player_pos[1] - self.rect.centery, 2))
-        self.__animation_steps = self.distance / self.speed
-        self.__dx = (player_pos[0] - self.rect.centerx) / self.__animation_steps
-        self.__dy = (player_pos[1] - self.rect.centery) / self.__animation_steps
+        try:
+            self.distance = math.sqrt \
+                (pow(player_pos[0] - self.rect.centerx, 2) + pow(player_pos[1] - self.rect.centery, 2))
+            self.__animation_steps = self.distance / self.speed
+            self.__dx = (player_pos[0] - self.rect.centerx) / self.__animation_steps
+            self.__dy = (player_pos[1] - self.rect.centery) / self.__animation_steps
+        except:
+            self.__dx = 0
+            self.__dy = 0
 
     def rotate(self,playerpos):
         self.__angle = math.degrees(math.atan2 \
@@ -128,6 +133,13 @@ class enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.rect.center)
     def getangle(self):
         return self.__angle
+
+    def damage(self,damagedone):
+        self.health-=damagedone
+        if self.health>0:
+            return True
+        else:
+            return False
 
     def update(self):
             self.rect.centerx += self.__dx
