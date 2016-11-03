@@ -16,7 +16,7 @@ done = False
 
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode(size)##, pygame.FULLSCREEN)
-pygame.display.set_caption("Killer Robot Simulator 2K16")
+pygame.display.set_caption("Rectangle Bounce Simulator 2K16")
 rect_x=random.randrange(50, 850, 1)
 rect_y = random.randrange(50, 650, 1)
 xdir = random.choice([3,-3])
@@ -32,7 +32,6 @@ while not done:
             done = True
     screen.fill(WHITE)
     pygame.draw.rect(screen,RED,[rect_x,rect_y,50,50],0)
-    pygame.draw.rect(screen, RED, [500, 450, 50, 50], 0)
     rect_x += xdir
     rect_y += ydir
     pygame.display.flip()
