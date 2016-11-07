@@ -20,10 +20,24 @@ class killerrobot(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.orgimage, self.angle)
 
         self.rect = self.image.get_rect(center=self.rect.center)
-    def takedamage(self,damage):
+    def takedamage(self,damage,screen):
         self.health-=damage
-        self.rect.centerx+=50
-        self.rect.centery+=50
+        if self.rect.bottom > screen.get_height():
+            if self.rect.right > screen.get_width():
+                self.rect.centerx-=50
+                self.rect.centery-=50
+            else:
+                self.rect.centerx+=50
+                self.rect.centery-=50
+
+        else:
+            if self.rect.right > screen.get_width():
+                self.rect.centerx-=50
+                self.rect.centery+=50
+            else:
+                self.rect.centerx+=50
+                self.rect.centery+=50
+
         if self.health>0:
             return True
         else:
@@ -134,6 +148,46 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.centery += self.dy
         if self.rect.top < 0 or self.rect.bottom > 1024 or self.rect.left < 0 or self.rect.right > 1024:
             self.kill()
+class enemyBullet(pygame.sprite.Sprite):
+
+    def __init__(self, image,angle,player_pos,mouse_pos,speed,damage):
+        pygame.sprite.Sprite.__init__(self)
+        self.x = player_pos[0]
+        self.y = player_pos[1]
+        self.damage=damage
+
+        # Assign the mouse target position
+        self.targetx = mouse_pos[0]
+        self.targety = mouse_pos[1]
+
+        if image:
+            self.image=image
+            self.rect = self.image.get_rect()
+            self.rect.center=(self.x,self.y)
+            self.image=pygame.transform.rotate\
+            (self.image, angle)
+            self.rect = self.image.get_rect(center=self.rect.center)
+        else:
+            self.image=pygame.Surface((5,5))
+            self.image.fill((255,0,0))
+            self.image.set_alpha(0)
+            self.rect = self.image.get_rect()
+            self.rect.center=(self.x,self.y)
+
+        self.__distance = math.sqrt \
+            (pow(self.targetx - self.x, 2) + pow(self.targety - self.y, 2))
+        self.animation_steps = self.__distance / speed
+        self.dx = (self.targetx - self.x) / self.animation_steps
+        self.dy = (self.targety - self.y) / self.animation_steps
+
+    def getdamage(self):
+        return self.damage
+
+    def update(self):
+        self.rect.centerx += self.dx
+        self.rect.centery += self.dy
+        if self.rect.top < 0 or self.rect.bottom > 1024 or self.rect.left < 0 or self.rect.right > 1024:
+            self.kill()
 
 class enemy(pygame.sprite.Sprite):
 
@@ -187,36 +241,29 @@ class enemy(pygame.sprite.Sprite):
     def update(self):
             self.rect.centerx += self.__dx
             self.rect.centery += self.__dy
-class smartenemy(enemy):
-    def __init__(self,image,screen):
+class pistolenemy(enemy):
+    def __init__(self, image,playerpos,screen):
         pygame.sprite.Sprite.__init__(self)
-        self.screen=screen
-        if image:
-            self.image=image
-            self.org=image
-            self.rect = self.image.get_rect()
-            self.rect.center=(200,200)
-            self.rect = self.image.get_rect(center=self.rect.center)
-            self.spawn()
-            self.look()
-            self.set_step_amount((215,152))
-        else:
-            self.org=pygame.Surface((200,100))
-            self.org.fill((255,0,0))
-            self.org.set_alpha(0)
-            self.rect = self.org.get_rect()
-            self.rect.center=(200,200)
-            self.spawn()
-            self.look()
-            self.set_step_amount((215,152))
-    def look(self):
-        self.rotate((120,255))
-        self.rotate((120, 555))
+        self.image = image
+        self.org = self.image
+        self.screen = screen
+        self.speed=2
+        self.health=100
+        self.fired=0
+        self.rect = self.image.get_rect()
+        self.rotate(playerpos)
+        self.set_step_amount(playerpos)
+        self.spawn()
+
+    def spawn(self):
+        self.__x = random.randrange(0, -300, -30)
+        self.__y = random.randint(0, self.screen.get_height() - 100)
+        self.rect.center = (self.__x, self.__y)
 
     def set_step_amount(self, player_pos):
         try:
-            self.distance = math.sqrt \
-                (pow(player_pos[0] - self.rect.centerx, 2) + pow(player_pos[1] - self.rect.centery, 2))
+            self.distance =( math.sqrt \
+                (pow(player_pos[0] - self.rect.centerx, 2) + pow(player_pos[1] - self.rect.centery, 2)))+200
             self.__animation_steps = self.distance / self.speed
             self.__dx = (player_pos[0] - self.rect.centerx) / self.__animation_steps
             self.__dy = (player_pos[1] - self.rect.centery) / self.__animation_steps
@@ -242,8 +289,69 @@ class smartenemy(enemy):
         else:
             return False
 
+    def getfired(self):
+        return self.fired
+    def setfired(self,time):
+        self.fired=time
+
     def update(self):
-            self.look()
+            self.rect.centerx += self.__dx
+            self.rect.centery += self.__dy
+
+class rocketenemy(enemy):
+    def __init__(self, image,playerpos,screen):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = image
+        self.org = self.image
+        self.screen = screen
+        self.speed=2
+        self.health=500
+        self.fired=0
+        self.rect = self.image.get_rect()
+        self.rotate(playerpos)
+        self.set_step_amount(playerpos)
+        self.spawn()
+
+    def spawn(self):
+        self.__x = random.randrange(0, -300, -30)
+        self.__y = random.randint(0, self.screen.get_height() - 100)
+        self.rect.center = (self.__x, self.__y)
+
+    def set_step_amount(self, player_pos):
+        try:
+            self.distance =( math.sqrt \
+                (pow(player_pos[0] - self.rect.centerx, 2) + pow(player_pos[1] - self.rect.centery, 2)))+200
+            self.__animation_steps = self.distance / self.speed
+            self.__dx = (player_pos[0] - self.rect.centerx) / self.__animation_steps
+            self.__dy = (player_pos[1] - self.rect.centery) / self.__animation_steps
+        except:
+            self.__dx = 0
+            self.__dy = 0
+
+    def rotate(self,playerpos):
+        self.__angle = math.degrees(math.atan2 \
+                                        (self.rect.centerx - playerpos[0], self.rect.centery - playerpos[1]))
+
+        self.image = pygame.transform.rotate \
+            (self.org, self.__angle)
+
+        self.rect = self.image.get_rect(center=self.rect.center)
+    def getangle(self):
+        return self.__angle
+
+    def damage(self,damagedone):
+        self.health-=damagedone
+        if self.health>0:
+            return True
+        else:
+            return False
+
+    def getfired(self):
+        return self.fired
+    def setfired(self,time):
+        self.fired=time
+
+    def update(self):
             self.rect.centerx += self.__dx
             self.rect.centery += self.__dy
 
@@ -283,6 +391,9 @@ class Explosions(pygame.sprite.Sprite):
                break
 
 class Rocket(Bullet,pygame.sprite.Sprite):
+    def donothing(self):
+        x=0
+class enemyRocket(Bullet,pygame.sprite.Sprite):
     def donothing(self):
         x=0
 
