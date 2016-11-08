@@ -4,16 +4,16 @@ import sys
 from main import classdefs
 
 pygame.mixer.init()
-pygame.mixer.music.load("./main/Contra Hard Corps Music.mp3")
+pygame.mixer.music.load("./Contra Hard Corps Music.mp3")
 pygame.font.init()
 pygame.mixer.music.play(-1)
-fire = pygame.mixer.Sound("./main/DSPISTOL.wav")
-fireshotgun = pygame.mixer.Sound("./main/DSSHOTGN.wav")
-firerocket = pygame.mixer.Sound("./main/DSRLAUNC.wav")
-fireplasma = pygame.mixer.Sound("./main/DSPLASMA.wav")
-explode= pygame.mixer.Sound("./main/DSBAREXP.wav")
-pain= pygame.mixer.Sound("./main/DSPLPAIN.wav")
-playerdeath=pygame.mixer.Sound("./main/DSPLDETH.wav")
+fire = pygame.mixer.Sound("./DSPISTOL.wav")
+fireshotgun = pygame.mixer.Sound("./DSSHOTGN.wav")
+firerocket = pygame.mixer.Sound("./DSRLAUNC.wav")
+fireplasma = pygame.mixer.Sound("./DSPLASMA.wav")
+explode= pygame.mixer.Sound("./DSBAREXP.wav")
+pain= pygame.mixer.Sound("./DSPLPAIN.wav")
+playerdeath=pygame.mixer.Sound("./DSPLDETH.wav")
 pygame.display.set_caption("Robot simulator 2016")
 clock = pygame.time.Clock()
 screen=pygame.display.set_mode((1024,768))
@@ -86,11 +86,11 @@ def reset():
     rocketenemies.empty()
     x=1
     score=0
-    robot = classdefs.killerrobot('./main/temp_sprite.png')
+    robot = classdefs.killerrobot('./temp_sprite.png')
     robot_group.add(robot)
-    shotgun = classdefs.shotgunpickup(pygame.image.load('./main/shotgunicon.png'), screen)
+    shotgun = classdefs.shotgunpickup(pygame.image.load('./shotgunicon.png'), screen)
     powerups.add(shotgun)
-    renemy1 = classdefs.pistolenemy(pygame.image.load('./main/temp_sprite.png'), robot.rect.center, screen)
+    renemy1 = classdefs.pistolenemy(pygame.image.load('./temp_sprite.png'), robot.rect.center, screen)
     rocketenemies.add(renemy1)
 
     print("lo")
@@ -244,7 +244,7 @@ while running==True:
                 lastfired = pygame.time.get_ticks()
                 fire.play(0)
                 bullet1 = classdefs.Bullet \
-                    (pygame.image.load('./main/shot.png'), robot.getangle(), \
+                    (pygame.image.load('./shot.png'), robot.getangle(), \
                      robot.rect.center, pygame.mouse.get_pos(), 10, 5)
                 tracer1 = classdefs.Bullet \
                     (None, None, robot.rect.center, pygame.mouse.get_pos(), 10, 5)
@@ -255,21 +255,21 @@ while running==True:
                 lastfired = pygame.time.get_ticks()
                 fireshotgun.play(0)
                 bullet1 = classdefs.Bullet \
-                    (pygame.image.load('./main/shot.png'), robot.getangle(), \
+                    (pygame.image.load('./shot.png'), robot.getangle(), \
                      robot.rect.center, (pygame.mouse.get_pos()[0]+200,pygame.mouse.get_pos()[1]+200), 10, 7)
                 tracer1 = classdefs.Bullet \
                     (None, None, robot.rect.center, (pygame.mouse.get_pos()[0]+200,pygame.mouse.get_pos()[1]+200), 10, 7)
                 bullet_img.add(bullet1)
                 bullet_hitbox.add(tracer1)
                 bullet2 = classdefs.Bullet \
-                    (pygame.image.load('./main/shot.png'), robot.getangle(), \
+                    (pygame.image.load('./shot.png'), robot.getangle(), \
                      robot.rect.center, pygame.mouse.get_pos(), 10, 7)
                 tracer2 = classdefs.Bullet \
                     (None, None, robot.rect.center, pygame.mouse.get_pos(), 10, 7)
                 bullet_img.add(bullet2)
                 bullet_hitbox.add(tracer2)
                 bullet3 = classdefs.Bullet \
-                    (pygame.image.load('./main/shot.png'), robot.getangle(), \
+                    (pygame.image.load('./shot.png'), robot.getangle(), \
                      robot.rect.center, (pygame.mouse.get_pos()[0]-200,pygame.mouse.get_pos()[1]+200), 10, 7)
                 tracer3 = classdefs.Bullet \
                     (None, None, robot.rect.center,( pygame.mouse.get_pos()[0]-200,pygame.mouse.get_pos()[1]+200), 10, 7)
@@ -282,7 +282,7 @@ while running==True:
                 lastfired = pygame.time.get_ticks()
                 firerocket.play(0)
                 rocket = classdefs.Rocket \
-                    (pygame.image.load('./main/rocket.png'), robot.getangle(), \
+                    (pygame.image.load('./rocket.png'), robot.getangle(), \
                      robot.rect.center, pygame.mouse.get_pos(), 10, 5)
                 tracer1 = classdefs.Rocket \
                     (None, None, robot.rect.center, pygame.mouse.get_pos(), 10, 5)
@@ -302,7 +302,7 @@ while running==True:
     # delay by %3
         if machinegundelay % 5 == 0:
             fire.play()
-            bullet1 = classdefs.Bullet(pygame.image.load('./main/shot.png'), robot.getangle(), \
+            bullet1 = classdefs.Bullet(pygame.image.load('./shot.png'), robot.getangle(), \
             robot.rect.center, pygame.mouse.get_pos(), 20, 5)
             bullet2 = classdefs.Bullet(None, None, robot.rect.center, pygame.mouse.get_pos(), 10,7)
             bullet_img.add(bullet1)
@@ -315,7 +315,7 @@ while running==True:
     # delay by %3
         if plasmarifledelay % 5 == 0:
             fireplasma.play()
-            bullet1 = classdefs.Bullet(pygame.image.load('./main/plasmabolt.png'), robot.getangle(), \
+            bullet1 = classdefs.Bullet(pygame.image.load('./plasmabolt.png'), robot.getangle(), \
             robot.rect.center, pygame.mouse.get_pos(), 5, 15)
             bullet2 = classdefs.Bullet(None, None, robot.rect.center, pygame.mouse.get_pos(), 10,10)
             bullet_img.add(bullet1)
@@ -330,7 +330,7 @@ while running==True:
         if pygame.time.get_ticks()-pistolenemy.getfired()>700:
             fire.play()
             bullet1 = classdefs.enemyBullet \
-                (pygame.image.load('./main/shot.png'), robot.getangle(), \
+                (pygame.image.load('./shot.png'), robot.getangle(), \
                  pistolenemy.rect.center, robot.getpos(), 10, 5)
             tracer1 = classdefs.enemyBullet \
                 (None, None, pistolenemy.rect.center, robot.getpos(), 10, 5)
@@ -345,7 +345,7 @@ while running==True:
         if pygame.time.get_ticks()-rocketenemy.getfired()>700:
             firerocket.play()
             bullet1 = classdefs.enemyRocket \
-                (pygame.image.load('./main/rocket.png'), robot.getangle(), \
+                (pygame.image.load('./rocket.png'), robot.getangle(), \
                  rocketenemy.rect.center, robot.getpos(), 10, 5)
             tracer1 = classdefs.enemyRocket \
                 (None, None, rocketenemy.rect.center, robot.getpos(), 10, 5)
@@ -361,7 +361,7 @@ while running==True:
         for bullet in c.keys():
             if not (c[bullet][0].damage(bullet.getdamage())):
                 c[bullet][0].kill()
-                enemy1 = classdefs.enemy(pygame.image.load('./main/temp_sprite.png'), robot.rect.center, screen)
+                enemy1 = classdefs.enemy(pygame.image.load('./temp_sprite.png'), robot.rect.center, screen)
                 enemies.add(enemy1)
                 score+=100
                 allSprites = pygame.sprite.OrderedUpdates (bullet_img, bullet_hitbox, ebullet_img, ebullet_hitbox,erocket_hitbox, erocket_img, robot_group, rocket_hitbox, rocket_img, enemies, rocketenemies,         pistolenemies, wave_text, powerups,          explosions)
@@ -397,7 +397,7 @@ while running==True:
             if not (r[rockets][0].damage(20)):
                 r[rockets][0].kill()
                 explode.play(0)
-                enemy1 = classdefs.enemy(pygame.image.load('./main/temp_sprite.png'), robot.rect.center, screen)
+                enemy1 = classdefs.enemy(pygame.image.load('./temp_sprite.png'), robot.rect.center, screen)
                 enemies.add(enemy1)
                 score += 100
                 allSprites = pygame.sprite.OrderedUpdates (bullet_img, bullet_hitbox, ebullet_img, ebullet_hitbox,erocket_hitbox, erocket_img, robot_group, rocket_hitbox, rocket_img, enemies,rocketenemies   ,           pistolenemies, wave_text, powerups,          explosions)
@@ -419,7 +419,7 @@ while running==True:
         for bullet in c3.keys():
             if not (c3[bullet][0].damage(bullet.getdamage())):
                 c3[bullet][0].kill()
-                enemy1 = classdefs.rocketenemy(pygame.image.load('./main/temp_sprite.png'), robot.rect.center, screen)
+                enemy1 = classdefs.rocketenemy(pygame.image.load('./temp_sprite.png'), robot.rect.center, screen)
                 rocketenemies.add(enemy1)
                 score+=100
                 allSprites = pygame.sprite.OrderedUpdates (bullet_img, bullet_hitbox, ebullet_img, ebullet_hitbox,erocket_hitbox, erocket_img, robot_group, rocket_hitbox, rocket_img, enemies,rocketenemies   ,           rocketenemies, wave_text, powerups,          explosions)
@@ -430,7 +430,7 @@ while running==True:
             if not (r4[rockets][0].damage(30)):
                 r4[rockets][0].kill()
                 explode.play(0)
-                enemy1 = classdefs.rocketenemy(pygame.image.load('./main/temp_sprite.png'), robot.rect.center, screen)
+                enemy1 = classdefs.rocketenemy(pygame.image.load('./temp_sprite.png'), robot.rect.center, screen)
                 rocketenemies.add(enemy1)
                 score += 100
                 allSprites = pygame.sprite.OrderedUpdates (bullet_img, bullet_hitbox, ebullet_img, ebullet_hitbox,erocket_hitbox, erocket_img, robot_group, rocket_hitbox, rocket_img, enemies, rocketenemies   ,          rocketenemies, wave_text, powerups,          explosions)

@@ -81,7 +81,7 @@ class Text(pygame.sprite.Sprite):
     def __init__(self, size, color, position,variable,message, alpha):
         '''accepts size,color,position,variables,message and alpha'''
         pygame.sprite.Sprite.__init__(self)
-        self.__font = pygame.font.Font('./main/AmazDooMRight2.ttf', size)
+        self.__font = pygame.font.Font('./AmazDooMRight2.ttf', size)
         self.__color = color
         self.__position = position
         self.variable=variable
