@@ -30,6 +30,7 @@ def game_intro():
             if event.type == pygame.QUIT:
                 #closes program
                 pygame.quit()
+                quit()
 
         #prints to screen
         screen.fill(WHITE)
