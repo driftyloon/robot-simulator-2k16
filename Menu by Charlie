@@ -48,6 +48,7 @@ def game_intro():
             pygame.draw.rect(screen, GREEN, (400, 300, 100, 50))
             pygame.draw.rect(screen, BLUE, (300, 400, 100, 50))
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #Reduces number of waves
                 wavemax = wavemax-1
                 if wavemax <= 0:
                     wavemax = 0
@@ -57,6 +58,7 @@ def game_intro():
             pygame.draw.rect(screen, BRIGHT_GREEN, (400, 300, 100, 50))
             pygame.draw.rect(screen, BLUE, (300, 400, 100, 50))
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #Increases number of waves
                 wavemax = wavemax+1
         elif 300+100 > mouse[0] > 300 and 400+50 > mouse[1] > 400:
             #when mouse hovers over blue button
@@ -64,6 +66,7 @@ def game_intro():
             pygame.draw.rect(screen, GREEN, (400, 300, 100, 50))
             pygame.draw.rect(screen, BRIGHT_BLUE, (300, 400, 100, 50))
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #Begins main game loop
                 game_loop(wavemax)
                 intro = False
                 break
