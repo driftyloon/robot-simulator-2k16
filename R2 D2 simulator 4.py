@@ -22,10 +22,6 @@ class asteroidleft:
             self.asteroidw_change += - 10
         self.rand_x += self.rand_x_change
         self.asteroidw += self.asteroidw_change
-        print("x = " + str(self.rand_x))
-        print("y = " + str(self.rand_y))
-        print("x width = " + str(self.asteroidw))
-        print("y width = " + str(self.asteroidh))
         if rect_overlap((ship_x, ship_y, block_size, block_size), (self.rand_x, self.rand_y, self.asteroid_thickness, self.asteroid_thickness)):
             print("Dead")
     def draw(self):
