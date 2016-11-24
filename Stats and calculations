@@ -1,0 +1,61 @@
+from random import randint
+
+RobotStats = {
+    'MaxHP': 0,
+    'HP': 0,
+    'Atk': 0,
+    'Armour': 0,
+    'Weapon': "",
+    'AtkSpd': 5,
+    'AtkRng': 100,
+    'MovSpd': 5,
+    'RobotLevel': 1
+    ‘Experience’:
+}
+
+RobotLevel = 1
+#find out Base Stat for further calculations based on level.
+
+StatCalc = randint(0, 2)
+if StatCalc == 0:
+    StatCalc = 60
+elif StatCalc == 1:
+    StatCalc = 70
+elif StatCalc == 2:
+    StatCalc = 80
+
+AtkStatCalc = StatCalc + randint(-5,5)
+ArmourStatCalc = StatCalc + randint(-5,5)
+
+
+BonusStat = randint(5,16)
+BonusHPStat = randint(50,76)
+
+
+for RobotStats['RobotLevel'] in range(1, 121):
+    #Calculating Stats
+    #MaxHP
+    RobotStats['MaxHP'] = (round(((StatCalc * 3.75) * RobotStats['RobotLevel']) / 100 + BonusHPStat))
+    #HP
+    RobotStats['HP'] = RobotStats['MaxHP']
+    #HPDisplay
+    HPDisplay = str(RobotStats['HP']) + "/" + str(RobotStats['MaxHP'])
+    #Attack Stat
+    RobotStats['Atk'] = round(((AtkStatCalc * 3.25) * RobotStats['RobotLevel']) / 100 + BonusStat) # add or multiply by weapon damage??
+    #Armour Stat
+    RobotStats['Armour'] = round(((ArmourStatCalc * 3.25) * RobotStats['RobotLevel']) / 100 + BonusStat) # add by equipped custom armour ??
+
+    #display stats
+    print("Level: ", RobotStats['RobotLevel'])
+    print(" -- ")
+    print("Stat Calc: " , StatCalc)
+    print("Attack Stat Calc: ", AtkStatCalc)
+    print("Armour Stat Calc: ", ArmourStatCalc)
+    print(" -- ")
+    print("Bonus Stat: ", BonusStat)
+    print("Bonus HP Stat: " , BonusHPStat)
+    print(" -- ")
+    print("CurrentHP: " + HPDisplay)
+    print("Attack Stat: ", RobotStats['Atk'])
+    print("Armour Stat: ", RobotStats['Armour'])
+    print()
